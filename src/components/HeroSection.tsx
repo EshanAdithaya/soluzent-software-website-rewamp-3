@@ -45,7 +45,7 @@ const HeroSection = () => {
     <section 
       ref={containerRef}
       id="home" 
-      className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden noise"
+      className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden noise mb-16"
     >
       {/* Animated Grid Background */}
       <motion.div 

@@ -40,7 +40,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-background text-foreground">
+    <footer className="bg-background text-foreground mt-16">
       <div className="container-wide">
         {/* Main Footer Content */}
         <div className="py-16">

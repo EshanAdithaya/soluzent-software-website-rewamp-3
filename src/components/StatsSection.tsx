@@ -146,7 +146,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section ref={containerRef} className="py-32 bg-black relative overflow-hidden">
+    <section ref={containerRef} className="py-20 lg:py-32 bg-black relative overflow-hidden mt-16 mb-16">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-10" />
       <div className="absolute inset-0 bg-gradient-to-b from-black via-secondary/50 to-black" />

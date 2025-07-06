@@ -201,7 +201,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20 lg:py-32 bg-background relative overflow-hidden">
+    <section id="services" className="py-20 lg:py-32 bg-background relative overflow-hidden mt-16 mb-16">
       <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
       <div className="container-wide relative z-10">
         <motion.div
