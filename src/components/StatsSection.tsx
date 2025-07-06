@@ -163,7 +163,7 @@ const StatsSection = () => {
 
       <motion.div 
         style={{ opacity }}
-        className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12"
+        className="relative z-10 container-wide"
       >
         {/* Section Header */}
         <motion.div

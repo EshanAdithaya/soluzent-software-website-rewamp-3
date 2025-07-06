@@ -19,24 +19,24 @@ const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="flex-none w-80 md:w-96 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-300"
+      className="flex-none w-80 md:w-96 glass rounded-2xl overflow-hidden border border-glass-border hover:glass-heavy transition-all duration-300"
     >
-      <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
-        <div className="text-6xl text-blue-300">{project.image}</div>
-        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-xs font-medium text-gray-600">
+      <div className="relative h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+        <div className="text-6xl text-primary">{project.image}</div>
+        <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full text-xs font-medium text-foreground">
           {project.category}
         </div>
       </div>
       
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
-        <p className="text-gray-600 mb-4 text-sm leading-relaxed">{project.description}</p>
+        <h3 className="text-display-sm font-bold text-foreground mb-3">{project.title}</h3>
+        <p className="text-muted-foreground mb-6 text-body-md leading-relaxed">{project.description}</p>
         
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map((tech, index) => (
             <span
               key={index}
-              className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-medium"
+              className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/20"
             >
               {tech}
             </span>
@@ -49,7 +49,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
               href={project.link}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200"
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent transition-colors duration-200"
             >
               <ExternalLink className="w-4 h-4" />
               View Live
@@ -60,7 +60,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
               href={project.github}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
+              className="flex items-center gap-2 glass-heavy text-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-foreground hover:text-background transition-colors duration-200"
             >
               <Github className="w-4 h-4" />
               Code
@@ -159,23 +159,24 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 bg-gray-50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" ref={containerRef} className="py-20 lg:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
+      <div className="container-wide relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.h2 
             style={{ y }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+            className="text-display-lg font-bold text-foreground mb-6"
           >
             Featured Projects
           </motion.h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Explore our latest work and see how we bring ideas to life
+          <p className="text-body-xl text-muted-foreground max-w-3xl mx-auto">
+            Explore our latest work and see how we bring ideas to life with cutting-edge technology and innovative design
           </p>
         </motion.div>
 
@@ -188,10 +189,10 @@ const ProjectsSection = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scroll('left')}
                 disabled={!canScrollLeft}
-                className={`p-3 rounded-full border-2 transition-all duration-200 ${
+                className={`p-3 rounded-lg glass border transition-all duration-200 ${
                   canScrollLeft 
-                    ? 'border-blue-600 text-blue-600 hover:bg-blue-50' 
-                    : 'border-gray-300 text-gray-400 cursor-not-allowed'
+                    ? 'border-primary text-primary hover:bg-primary/10' 
+                    : 'border-muted text-muted-foreground cursor-not-allowed opacity-50'
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -201,10 +202,10 @@ const ProjectsSection = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scroll('right')}
                 disabled={!canScrollRight}
-                className={`p-3 rounded-full border-2 transition-all duration-200 ${
+                className={`p-3 rounded-lg glass border transition-all duration-200 ${
                   canScrollRight 
-                    ? 'border-blue-600 text-blue-600 hover:bg-blue-50' 
-                    : 'border-gray-300 text-gray-400 cursor-not-allowed'
+                    ? 'border-primary text-primary hover:bg-primary/10' 
+                    : 'border-muted text-muted-foreground cursor-not-allowed opacity-50'
                 }`}
               >
                 <ChevronRight className="w-5 h-5" />
@@ -215,7 +216,7 @@ const ProjectsSection = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200"
+              className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-accent transition-colors duration-200"
             >
               View All Projects
             </motion.a>

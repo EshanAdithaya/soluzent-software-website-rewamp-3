@@ -203,7 +203,7 @@ const ServicesSection = () => {
   return (
     <section id="services" className="py-20 lg:py-32 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+      <div className="container-wide relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

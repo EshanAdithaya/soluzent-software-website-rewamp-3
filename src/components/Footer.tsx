@@ -40,8 +40,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-background text-foreground">
+      <div className="container-wide">
         {/* Main Footer Content */}
         <div className="py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -53,8 +53,8 @@ const Footer = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold mb-4">Building Digital Excellence</h3>
-                <p className="text-gray-300 mb-6 leading-relaxed">
+                <h3 className="text-display-md font-bold text-foreground mb-4">Building Digital Excellence</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed">
                   We craft innovative software solutions that transform businesses and 
                   create meaningful digital experiences. Partner with us to bring your 
                   vision to life.
@@ -72,7 +72,7 @@ const Footer = () => {
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors duration-200"
+                      className="w-10 h-10 glass rounded-lg flex items-center justify-center hover:bg-primary transition-colors duration-200"
                       aria-label={social.label}
                     >
                       <social.icon className="w-5 h-5" />
@@ -102,7 +102,7 @@ const Footer = () => {
                     >
                       <a
                         href={link.href}
-                        className="text-gray-300 hover:text-blue-400 transition-colors duration-200 text-sm"
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                       >
                         {link.name}
                       </a>
@@ -132,7 +132,7 @@ const Footer = () => {
                     >
                       <a
                         href={link.href}
-                        className="text-gray-300 hover:text-blue-400 transition-colors duration-200 text-sm"
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                       >
                         {link.name}
                       </a>
@@ -162,7 +162,7 @@ const Footer = () => {
                     >
                       <a
                         href={link.href}
-                        className="text-gray-300 hover:text-blue-400 transition-colors duration-200 text-sm"
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                       >
                         {link.name}
                       </a>
@@ -184,8 +184,8 @@ const Footer = () => {
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h4 className="text-lg font-semibold mb-2">Stay Updated</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className="text-lg font-semibold mb-2 text-foreground">Stay Updated</h4>
+              <p className="text-muted-foreground text-sm">
                 Subscribe to our newsletter for the latest updates and insights.
               </p>
             </div>
@@ -193,12 +193,12 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="flex-1 px-4 py-3 glass border border-glass-border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm text-foreground"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
+                className="bg-primary text-primary-foreground px-6 py-3 rounded-r-lg hover:bg-accent transition-colors duration-200 text-sm font-medium"
               >
                 Subscribe
               </motion.button>
@@ -207,14 +207,14 @@ const Footer = () => {
         </motion.div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 py-6">
+        <div className="border-t border-glass-border py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-gray-400 text-sm"
+              className="text-muted-foreground text-sm"
             >
               © 2024 Building Digital Excellence. All rights reserved.
             </motion.p>
@@ -223,10 +223,10 @@ const Footer = () => {
               onClick={scrollToTop}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors duration-200 group"
+              className="w-10 h-10 glass rounded-lg flex items-center justify-center hover:bg-primary transition-colors duration-200 group"
               aria-label="Scroll to top"
             >
-              <ArrowUp className="w-5 h-5 group-hover:text-white" />
+              <ArrowUp className="w-5 h-5 group-hover:text-primary-foreground" />
             </motion.button>
           </div>
         </div>

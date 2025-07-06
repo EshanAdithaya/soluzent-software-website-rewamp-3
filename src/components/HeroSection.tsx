@@ -103,7 +103,7 @@ const HeroSection = () => {
 
       <motion.div 
         style={{ opacity }}
-        className="relative z-10 text-center max-w-7xl mx-auto px-6 sm:px-8 lg:px-16"
+        className="relative z-10 text-center container-wide"
       >
         {/* Label */}
         <motion.div

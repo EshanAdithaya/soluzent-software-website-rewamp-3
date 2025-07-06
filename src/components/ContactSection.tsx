@@ -60,19 +60,20 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-20 lg:py-32 bg-background text-foreground relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
+      <div className="container-wide relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-display-lg font-bold text-foreground mb-6">
             Let&apos;s Build Something Amazing Together
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-body-xl text-muted-foreground max-w-3xl mx-auto">
             Ready to transform your ideas into reality? Get in touch and let&apos;s discuss your next project.
           </p>
         </motion.div>
@@ -87,8 +88,8 @@ const ContactSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
-              <p className="text-gray-300 mb-8 leading-relaxed">
+              <h3 className="text-display-md font-bold text-foreground mb-6">Get in Touch</h3>
+              <p className="text-body-lg text-muted-foreground mb-8 leading-relaxed">
                 We&apos;re always excited to hear about new projects and opportunities. 
                 Whether you have a detailed plan or just an idea, we&apos;d love to discuss 
                 how we can help bring your vision to life.
@@ -104,14 +105,14 @@ const ContactSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-center gap-4 p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors duration-200 group"
+                  className="flex items-center gap-4 p-4 rounded-lg glass hover:glass-heavy transition-colors duration-200 group"
                 >
-                  <div className="text-blue-400 group-hover:text-blue-300 transition-colors duration-200">
+                  <div className="text-primary group-hover:text-accent transition-colors duration-200">
                     {item.icon}
                   </div>
                   <div>
-                    <div className="font-medium text-gray-300">{item.title}</div>
-                    <div className="text-white">{item.content}</div>
+                    <div className="font-medium text-muted-foreground">{item.title}</div>
+                    <div className="text-foreground">{item.content}</div>
                   </div>
                 </motion.a>
               ))}
@@ -122,10 +123,10 @@ const ContactSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
-              className="bg-blue-600/20 p-6 rounded-lg border border-blue-600/30"
+              className="bg-primary/10 p-6 rounded-lg border border-primary/20"
             >
-              <h4 className="font-semibold text-blue-300 mb-2">Quick Response Guarantee</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className="font-semibold text-primary mb-2">Quick Response Guarantee</h4>
+              <p className="text-muted-foreground text-body-sm">
                 We typically respond to all inquiries within 24 hours. For urgent matters, 
                 don&apos;t hesitate to call us directly.
               </p>
@@ -139,8 +140,8 @@ const ContactSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="bg-gray-800 rounded-2xl p-8 shadow-2xl">
-              <h3 className="text-2xl font-bold mb-6">Send us a Message</h3>
+            <div className="glass rounded-2xl p-8 border border-glass-border">
+              <h3 className="text-display-md font-bold text-foreground mb-6">Send us a Message</h3>
               
               {isSubmitted ? (
                 <motion.div
@@ -149,8 +150,8 @@ const ContactSection = () => {
                   className="text-center py-12"
                 >
                   <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h4 className="text-xl font-semibold text-green-400 mb-2">Message Sent!</h4>
-                  <p className="text-gray-300">
+                  <h4 className="text-xl font-semibold text-success mb-2">Message Sent!</h4>
+                  <p className="text-muted-foreground">
                     Thank you for reaching out. We&apos;ll get back to you soon.
                   </p>
                 </motion.div>
@@ -158,7 +159,7 @@ const ContactSection = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                      <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-2">
                         Name *
                       </label>
                       <input
@@ -168,12 +169,12 @@ const ContactSection = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                        className="w-full px-4 py-3 glass border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 text-foreground"
                         placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                      <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-2">
                         Email *
                       </label>
                       <input
@@ -183,14 +184,14 @@ const ContactSection = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                        className="w-full px-4 py-3 glass border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 text-foreground"
                         placeholder="your@email.com"
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="company" className="block text-sm font-medium text-muted-foreground mb-2">
                       Company
                     </label>
                     <input
@@ -199,13 +200,13 @@ const ContactSection = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                      className="w-full px-4 py-3 glass border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 text-foreground"
                       placeholder="Your company"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-2">
                       Message *
                     </label>
                     <textarea
@@ -215,7 +216,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 resize-none"
+                      className="w-full px-4 py-3 glass border border-glass-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 resize-none text-foreground"
                       placeholder="Tell us about your project..."
                     />
                   </div>
@@ -225,7 +226,7 @@ const ContactSection = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+                    className="w-full bg-primary text-primary-foreground py-4 px-6 rounded-lg font-semibold hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <>
