@@ -56,7 +56,7 @@ const Footer = () => {
                 <h3 className="text-display-md font-bold text-foreground mb-4">Building Digital Excellence</h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
                   We craft innovative software solutions that transform businesses and 
-                  create meaningful digital experiences. Partner with us to bring your 
+                  create meaningful digital experiences.&nbsp; Partner with us to bring your 
                   vision to life.
                 </p>
                 
@@ -216,7 +216,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="text-muted-foreground text-sm"
             >
-              © 2024 Building Digital Excellence. All rights reserved.
+              © 2024 Building Digital Excellence.&nbsp; All rights reserved.
             </motion.p>
             
             <motion.button

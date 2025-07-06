@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Scroll Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            height: 400vh; /* 4 screens height for smooth transitions */
+        }
+
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .section {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .section-content {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.8s ease-out;
+        }
+
+        .section-content.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .section:nth-child(2) { top: 100vh; }
+        .section:nth-child(3) { top: 200vh; }
+        .section:nth-child(4) { top: 300vh; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 3;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease-out;
+        }
+
+        .model-info {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            color: white;
+            font-size: 1.1rem;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .model-info.visible {
+            opacity: 1;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .section-content h2 {
+                font-size: 2rem;
+            }
+            
+            .section-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+
+    <div class="container">
+        <div id="threejs-container"></div>
+        
+        <div class="section">
+            <div class="section-content">
+                <h2>Digital Innovation</h2>
+                <p>Experience the future of technology with our cutting-edge solutions</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2>Mobile Excellence</h2>
+                <p>Seamless mobile experiences that connect you to the world</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2>Financial Success</h2>
+                <p>Transform your business with smart financial technology</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2>Your Journey Starts Here</h2>
+                <p>Join thousands of satisfied customers in the digital revolution</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="model-info">
+        <div id="model-name">Loading...</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        class ThreeJSScrollExperience {
+            constructor() {
+                this.scene = null;
+                this.camera = null;
+                this.renderer = null;
+                this.models = [];
+                this.currentModel = 0;
+                this.scrollProgress = 0;
+                this.isLoading = true;
+                
+                this.modelConfigs = [
+                    {
+                        name: 'Laptop',
+                        path: 'assets/models/laptop.glb', // You'll place your downloaded model here
+                        scale: 1.5,
+                        rotation: { x: 0, y: 0, z: 0 },
+                        position: { x: 0, y: 0, z: 0 }
+                    },
+                    {
+                        name: 'Mobile Phone',
+                        path: 'assets/models/mobile.glb', // You'll place your downloaded model here
+                        scale: 2.0,
+                        rotation: { x: 0, y: 0, z: 0 },
+                        position: { x: 0, y: 0, z: 0 }
+                    },
+                    {
+                        name: 'Money/Coins',
+                        path: 'assets/models/money.glb', // You'll place your downloaded model here
+                        scale: 1.0,
+                        rotation: { x: 0, y: 0, z: 0 },
+                        position: { x: 0, y: 0, z: 0 }
+                    }
+                ];
+
+                this.init();
+            }
+
+            init() {
+                this.createScene();
+                this.createLights();
+                this.createPlaceholderModels(); // Create placeholder models for now
+                this.addEventListeners();
+                this.animate();
+                this.createParticles();
+                
+                // Hide loading screen after initialization
+                setTimeout(() => {
+                    document.querySelector('.loading-screen').classList.add('hidden');
+                    this.isLoading = false;
+                }, 2000);
+            }
+
+            createScene() {
+                this.scene = new THREE.Scene();
+                this.scene.background = null; // Transparent background
+
+                this.camera = new THREE.PerspectiveCamera(
+                    75,
+                    window.innerWidth / window.innerHeight,
+                    0.1,
+                    1000
+                );
+                this.camera.position.z = 5;
+
+                this.renderer = new THREE.WebGLRenderer({ 
+                    antialias: true, 
+                    alpha: true 
+                });
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.shadowMap.enabled = true;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                
+                document.getElementById('threejs-container').appendChild(this.renderer.domElement);
+            }
+
+            createLights() {
+                // Ambient light
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                this.scene.add(ambientLight);
+
+                // Directional light
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(5, 10, 5);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = 2048;
+                directionalLight.shadow.mapSize.height = 2048;
+                this.scene.add(directionalLight);
+
+                // Point light for dynamic lighting
+                const pointLight = new THREE.PointLight(0x667eea, 1, 100);
+                pointLight.position.set(0, 0, 10);
+                this.scene.add(pointLight);
+            }
+
+            createPlaceholderModels() {
+                // Create placeholder geometric models until you add real ones
+                const geometries = [
+                    new THREE.BoxGeometry(2, 1.5, 0.1), // Laptop-like
+                    new THREE.BoxGeometry(0.8, 1.6, 0.1), // Phone-like
+                    new THREE.CylinderGeometry(0.5, 0.5, 0.1, 32) // Coin-like
+                ];
+
+                const materials = [
+                    new THREE.MeshPhongMaterial({ color: 0x4a90e2 }),
+                    new THREE.MeshPhongMaterial({ color: 0x333333 }),
+                    new THREE.MeshPhongMaterial({ color: 0xffd700 })
+                ];
+
+                this.modelConfigs.forEach((config, index) => {
+                    const mesh = new THREE.Mesh(geometries[index], materials[index]);
+                    mesh.position.set(config.position.x, config.position.y, config.position.z);
+                    mesh.scale.set(config.scale, config.scale, config.scale);
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    mesh.visible = index === 0; // Show only first model initially
+                    
+                    this.scene.add(mesh);
+                    this.models.push(mesh);
+                });
+            }
+
+            addEventListeners() {
+                window.addEventListener('scroll', this.handleScroll.bind(this));
+                window.addEventListener('resize', this.handleResize.bind(this));
+            }
+
+            handleScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                this.scrollProgress = Math.min(scrollTop / maxScroll, 1);
+
+                // Update progress bar
+                document.querySelector('.progress-fill').style.width = `${this.scrollProgress * 100}%`;
+
+                // Calculate which model should be visible
+                const modelIndex = Math.floor(this.scrollProgress * 3);
+                const clampedIndex = Math.max(0, Math.min(2, modelIndex));
+
+                // Switch models
+                if (clampedIndex !== this.currentModel) {
+                    this.switchModel(clampedIndex);
+                }
+
+                // Update model position and rotation based on scroll
+                this.updateModelTransform();
+                
+                // Update section visibility
+                this.updateSectionVisibility();
+            }
+
+            switchModel(newIndex) {
+                // Hide current model
+                if (this.models[this.currentModel]) {
+                    this.models[this.currentModel].visible = false;
+                }
+
+                // Show new model
+                this.currentModel = newIndex;
+                if (this.models[this.currentModel]) {
+                    this.models[this.currentModel].visible = true;
+                }
+
+                // Update model info
+                document.getElementById('model-name').textContent = this.modelConfigs[this.currentModel].name;
+                document.querySelector('.model-info').classList.add('visible');
+            }
+
+            updateModelTransform() {
+                if (!this.models[this.currentModel]) return;
+
+                const model = this.models[this.currentModel];
+                const progress = this.scrollProgress * 3 - this.currentModel; // 0 to 1 for current model
+                
+                // Rotation animation
+                model.rotation.y = progress * Math.PI * 2;
+                model.rotation.x = Math.sin(progress * Math.PI) * 0.3;
+                
+                // Position animation
+                const amplitude = 0.5;
+                model.position.y = Math.sin(progress * Math.PI * 2) * amplitude;
+                model.position.x = Math.cos(progress * Math.PI) * 0.3;
+                
+                // Scale animation
+                const baseScale = this.modelConfigs[this.currentModel].scale;
+                const scaleMultiplier = 1 + Math.sin(progress * Math.PI) * 0.2;
+                model.scale.setScalar(baseScale * scaleMultiplier);
+            }
+
+            updateSectionVisibility() {
+                const sections = document.querySelectorAll('.section-content');
+                const sectionIndex = Math.floor(this.scrollProgress * 4);
+                
+                sections.forEach((section, index) => {
+                    if (index === sectionIndex) {
+                        section.classList.add('visible');
+                    } else {
+                        section.classList.remove('visible');
+                    }
+                });
+            }
+
+            createParticles() {
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    particle.style.animation = `float ${3 + Math.random() * 2}s ease-in-out infinite`;
+                    document.body.appendChild(particle);
+                }
+            }
+
+            handleResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            animate() {
+                requestAnimationFrame(this.animate.bind(this));
+                
+                if (!this.isLoading) {
+                    this.renderer.render(this.scene, this.camera);
+                }
+            }
+        }
+
+        // Add floating animation for particles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize the experience
+        new ThreeJSScrollExperience();
+    </script>
+</body>
+</html>

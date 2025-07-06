@@ -39,7 +39,7 @@ const HeroSection = () => {
   };
 
   const title = "BUILDING DIGITAL EXCELLENCE";
-  const subtitle = "We craft innovative software solutions that transform your business vision into extraordinary digital experiences";
+  const subtitle = "We craft innovative software solutions that transform your business vision into extraordinary digital experiences.";
 
   return (
     <section 

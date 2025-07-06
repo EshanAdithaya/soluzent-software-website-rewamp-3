@@ -11,12 +11,19 @@ export default function Home() {
   return (
     <main className="min-h-screen relative">
       <ShaderBackground />
+      
       <Navigation />
+      
       <HeroSection />
+      
       <StatsSection />
+      
       <ServicesSection />
+      
       <ProjectsSection />
+      
       <ContactSection />
+      
       <Footer />
     </main>
   );

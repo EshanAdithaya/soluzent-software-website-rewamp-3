@@ -90,7 +90,7 @@ const ContactSection = () => {
             <div>
               <h3 className="text-display-md font-bold text-foreground mb-6">Get in Touch</h3>
               <p className="text-body-lg text-muted-foreground mb-8 leading-relaxed">
-                We&apos;re always excited to hear about new projects and opportunities. 
+                We&apos;re always excited to hear about new projects and opportunities.&nbsp;
                 Whether you have a detailed plan or just an idea, we&apos;d love to discuss 
                 how we can help bring your vision to life.
               </p>
@@ -127,8 +127,8 @@ const ContactSection = () => {
             >
               <h4 className="font-semibold text-primary mb-2">Quick Response Guarantee</h4>
               <p className="text-muted-foreground text-body-sm">
-                We typically respond to all inquiries within 24 hours. For urgent matters, 
-                don&apos;t hesitate to call us directly.
+                We typically respond to all inquiries within 24 hours.&nbsp;
+                For urgent matters, don&apos;t hesitate to call us directly.
               </p>
             </motion.div>
           </motion.div>
@@ -152,7 +152,7 @@ const ContactSection = () => {
                   <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                   <h4 className="text-xl font-semibold text-success mb-2">Message Sent!</h4>
                   <p className="text-muted-foreground">
-                    Thank you for reaching out. We&apos;ll get back to you soon.
+                    Thank you for reaching out.&nbsp; We&apos;ll get back to you soon.
                   </p>
                 </motion.div>
               ) : (

@@ -215,7 +215,7 @@ const ServicesSection = () => {
             Our Services
           </h2>
           <p className="text-body-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive software solutions tailored to your business needs, delivered with excellence and innovation
+            Comprehensive software solutions tailored to your business needs, delivered with excellence and innovation.
           </p>
         </motion.div>
 
