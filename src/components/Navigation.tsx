@@ -7,6 +7,8 @@ import { Sparkles } from 'lucide-react';
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { scrollY } = useScroll();
   
   const navOpacity = useTransform(scrollY, [0, 100], [0.8, 1]);
@@ -14,12 +16,24 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      const isScrollingDown = currentScrollY > lastScrollY;
+      const isInLandingPage = currentScrollY < window.innerHeight * 0.8;
+      
+      setIsScrolled(currentScrollY > 20);
+      
+      if (isInLandingPage) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(!isScrollingDown || currentScrollY < 100);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const navItems = [
     { name: 'HOME', href: '#home' },
@@ -40,8 +54,8 @@ const Navigation = () => {
     <>
       <motion.nav
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         style={{
           backdropFilter: `blur(${navBlur}px)`,
           opacity: navOpacity,
@@ -52,7 +66,7 @@ const Navigation = () => {
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <motion.div
@@ -110,8 +124,7 @@ const Navigation = () => {
                 onClick={() => handleNavClick('#contact')}
                 whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative overflow-hidden bg-primary text-black px-6 py-3 font-semibold text-body-sm tracking-wider uppercase transition-all duration-300 glow-hover group"
-                style={{ clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)' }}
+                className="relative overflow-hidden bg-primary text-black px-6 py-3 font-semibold text-body-sm tracking-wider uppercase transition-all duration-300 glow-hover group rounded-lg"
               >
                 <span className="relative z-10">Let&apos;s Talk</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -188,8 +201,7 @@ const Navigation = () => {
                     transition={{ duration: 0.4, delay: 0.5 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-primary text-black py-4 px-6 font-semibold text-body-md tracking-wider uppercase transition-all duration-300 glow"
-                    style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%)' }}
+                    className="w-full bg-primary text-black py-4 px-6 font-semibold text-body-md tracking-wider uppercase transition-all duration-300 glow rounded-lg"
                   >
                     Let&apos;s Talk
                   </motion.button>

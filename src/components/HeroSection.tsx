@@ -103,7 +103,7 @@ const HeroSection = () => {
 
       <motion.div 
         style={{ opacity }}
-        className="relative z-10 text-center max-w-6xl mx-auto px-6 sm:px-8 lg:px-12"
+        className="relative z-10 text-center max-w-7xl mx-auto px-6 sm:px-8 lg:px-16"
       >
         {/* Label */}
         <motion.div
@@ -148,7 +148,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="text-body-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
+          className="text-body-xl text-muted-foreground mb-12 max-w-5xl mx-auto leading-relaxed"
         >
           {subtitle}
         </motion.p>
@@ -158,16 +158,16 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-12"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12"
         >
           {[
             { icon: Code, text: "Custom Development" },
             { icon: Zap, text: "High Performance" },
             { icon: Sparkles, text: "Modern Design" }
           ].map((item, index) => (
-            <div key={index} className="glass rounded-full px-4 py-2 flex items-center gap-2">
+            <div key={index} className="glass rounded-full px-3 sm:px-4 py-2 flex items-center gap-2">
               <item.icon className="w-4 h-4 text-primary" />
-              <span className="text-body-sm text-foreground">{item.text}</span>
+              <span className="text-body-sm text-foreground whitespace-nowrap">{item.text}</span>
             </div>
           ))}
         </motion.div>
@@ -177,14 +177,13 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.8 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-16 lg:mb-20"
         >
           <motion.a
             href="#projects"
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative overflow-hidden bg-primary text-black px-8 py-4 font-semibold text-body-md tracking-wide uppercase transition-all duration-300 flex items-center gap-3 glow-hover"
-            style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%)' }}
+            className="w-full sm:w-auto group relative overflow-hidden bg-primary text-black px-8 sm:px-10 py-4 font-semibold text-body-md tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-3 glow-hover rounded-lg"
           >
             <span className="relative z-10">View Our Work</span>
             <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
@@ -195,8 +194,7 @@ const HeroSection = () => {
             href="#contact"
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group glass-heavy px-8 py-4 font-semibold text-body-md text-foreground tracking-wide uppercase hover:bg-foreground hover:text-background transition-all duration-500 border-gradient"
-            style={{ clipPath: 'polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)' }}
+            className="w-full sm:w-auto group glass-heavy px-8 sm:px-10 py-4 font-semibold text-body-md text-foreground tracking-wide uppercase hover:bg-foreground hover:text-background transition-all duration-500 border border-glass-border hover:border-primary rounded-lg text-center"
           >
             Let&apos;s Talk
           </motion.a>

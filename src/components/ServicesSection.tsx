@@ -36,8 +36,8 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
     >
       <div className={`absolute inset-0 ${service.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`} />
       
-      <div className="relative bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden">
-        <div className="p-8">
+      <div className="relative glass rounded-2xl hover:glass-heavy transition-all duration-300 overflow-hidden border border-glass-border hover:border-primary/20">
+        <div className="p-8 lg:p-10">
           {/* Icon */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
@@ -53,7 +53,7 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
             transition={{ duration: 0.6, delay: index * 0.2 + 0.4 }}
-            className="text-2xl font-bold text-gray-900 mb-4"
+            className="text-display-sm font-bold text-foreground mb-6"
           >
             {service.title}
           </motion.h3>
@@ -62,7 +62,7 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
             transition={{ duration: 0.6, delay: index * 0.2 + 0.5 }}
-            className="text-gray-600 mb-6 leading-relaxed"
+            className="text-body-lg text-muted-foreground mb-8 leading-relaxed"
           >
             {service.description}
           </motion.p>
@@ -72,7 +72,7 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: index * 0.2 + 0.6 }}
-            className="space-y-3"
+            className="space-y-4 mb-8"
           >
             {service.features.map((feature, featureIndex) => (
               <motion.li
@@ -80,10 +80,10 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                 transition={{ duration: 0.4, delay: index * 0.2 + 0.7 + featureIndex * 0.1 }}
-                className="flex items-center gap-3 text-gray-700"
+                className="flex items-center gap-3 text-foreground"
               >
-                <div className={`w-2 h-2 ${service.color} rounded-full`} />
-                <span className="text-sm">{feature}</span>
+                <div className="w-2 h-2 bg-primary rounded-full" />
+                <span className="text-body-md">{feature}</span>
               </motion.li>
             ))}
           </motion.ul>
@@ -93,12 +93,11 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: index * 0.2 + 0.8 }}
-            className="mt-8"
           >
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group/btn flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group/btn flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors duration-200 bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-lg"
             >
               Learn More
               <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
@@ -202,24 +201,25 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-20 lg:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-display-lg font-bold text-foreground mb-6">
             Our Services
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Comprehensive software solutions tailored to your business needs
+          <p className="text-body-xl text-muted-foreground max-w-3xl mx-auto">
+            Comprehensive software solutions tailored to your business needs, delivered with excellence and innovation
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
           {services.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}
@@ -231,19 +231,19 @@ const ServicesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="text-center mt-20"
         >
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <h3 className="text-display-md font-bold text-foreground mb-6">
             Ready to Start Your Project?
           </h3>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+          <p className="text-body-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
             Let&apos;s discuss how we can help transform your ideas into reality with our expert development services.
           </p>
           <motion.a
             href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-10 py-4 font-semibold text-body-md tracking-wide uppercase transition-all duration-300 glow-hover rounded-lg"
           >
             Get Started Today
             <ArrowRight className="w-5 h-5" />

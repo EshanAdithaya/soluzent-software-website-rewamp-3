@@ -55,7 +55,7 @@ const StatItem = ({ number, label, suffix = '', delay = 0, icon, description }: 
       }}
       className="group relative"
     >
-      <div className="glass-heavy rounded-lg p-8 text-center hover:bg-white/5 transition-all duration-500 border border-white/10 hover:border-primary/30">
+      <div className="glass-heavy rounded-lg p-6 lg:p-8 text-center hover:bg-white/5 transition-all duration-500 border border-white/10 hover:border-primary/30">
         {/* Icon */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
@@ -197,7 +197,7 @@ const StatsSection = () => {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {stats.map((stat, index) => (
             <StatItem
               key={index}
@@ -222,8 +222,7 @@ const StatsSection = () => {
           <motion.button
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="glass-heavy px-8 py-4 text-body-md font-semibold text-foreground tracking-wider uppercase hover:bg-primary hover:text-black transition-all duration-500 border-gradient glow-hover"
-            style={{ clipPath: 'polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)' }}
+            className="glass-heavy px-10 py-4 text-body-md font-semibold text-foreground tracking-wider uppercase hover:bg-primary hover:text-black transition-all duration-500 border border-glass-border hover:border-primary glow-hover rounded-lg"
           >
             Start Your Project
           </motion.button>
