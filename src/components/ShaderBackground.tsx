@@ -112,7 +112,9 @@ const ShaderBackground = () => {
 
     const vertices = [-1, 1, -1, -1, 1, 1, 1, -1];
 
-    function createShader(type: number, source: string) {
+    function createShader(type: number, source: string): WebGLShader | null {
+      if (!gl) return null;
+      
       const shader = gl.createShader(type);
       if (!shader) return null;
       
@@ -128,7 +130,9 @@ const ShaderBackground = () => {
       return shader;
     }
 
-    function createProgram(vertexShader: WebGLShader, fragmentShader: WebGLShader) {
+    function createProgram(vertexShader: WebGLShader, fragmentShader: WebGLShader): WebGLProgram | null {
+      if (!gl) return null;
+      
       const program = gl.createProgram();
       if (!program) return null;
       
@@ -154,6 +158,8 @@ const ShaderBackground = () => {
     if (!program) return;
 
     // Setup buffer
+    if (!gl || !program) return;
+    
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -166,6 +172,8 @@ const ShaderBackground = () => {
     const resolutionLocation = gl.getUniformLocation(program, 'resolution');
 
     function resize() {
+      if (!gl || !canvas) return;
+      
       const displayWidth = canvas.clientWidth;
       const displayHeight = canvas.clientHeight;
 
@@ -177,14 +185,16 @@ const ShaderBackground = () => {
     }
 
     function render(time: number) {
+      if (!gl || !program || !canvas) return;
+      
       resize();
       
       gl.clearColor(0, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.useProgram(program);
       
-      gl.uniform1f(timeLocation, time * 0.001);
-      gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+      if (timeLocation) gl.uniform1f(timeLocation, time * 0.001);
+      if (resolutionLocation) gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
       
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       
