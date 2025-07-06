@@ -1,16 +1,19 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import { Trophy, Users, Clock, Target } from 'lucide-react';
 
 interface StatItemProps {
   number: number;
   label: string;
   suffix?: string;
   delay?: number;
+  icon: React.ReactNode;
+  description: string;
 }
 
-const StatItem = ({ number, label, suffix = '', delay = 0 }: StatItemProps) => {
+const StatItem = ({ number, label, suffix = '', delay = 0, icon, description }: StatItemProps) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -18,7 +21,7 @@ const StatItem = ({ number, label, suffix = '', delay = 0 }: StatItemProps) => {
   useEffect(() => {
     if (isInView) {
       const timer = setTimeout(() => {
-        const duration = 2000;
+        const duration = 2500;
         const steps = 60;
         const increment = number / steps;
         let current = 0;
@@ -43,64 +46,189 @@ const StatItem = ({ number, label, suffix = '', delay = 0 }: StatItemProps) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay }}
-      className="text-center"
+      initial={{ opacity: 0, y: 60, scale: 0.8 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 60, scale: 0.8 }}
+      transition={{ 
+        duration: 0.8, 
+        delay,
+        ease: [0.22, 1, 0.36, 1]
+      }}
+      className="group relative"
     >
-      <motion.div
-        initial={{ scale: 0.5 }}
-        animate={isInView ? { scale: 1 } : { scale: 0.5 }}
-        transition={{ duration: 0.8, delay: delay + 0.2 }}
-        className="text-4xl md:text-5xl font-bold text-blue-600 mb-2"
-      >
-        {count}{suffix}
-      </motion.div>
-      <div className="text-gray-600 text-sm md:text-base font-medium">
-        {label}
+      <div className="glass-heavy rounded-lg p-8 text-center hover:bg-white/5 transition-all duration-500 border border-white/10 hover:border-primary/30">
+        {/* Icon */}
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+          transition={{ duration: 0.8, delay: delay + 0.2 }}
+          className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors duration-300"
+        >
+          {icon}
+        </motion.div>
+
+        {/* Number */}
+        <motion.div
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ duration: 1, delay: delay + 0.4 }}
+          className="text-display-md font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300"
+          style={{ textShadow: '0 0 20px rgba(255, 115, 0, 0.2)' }}
+        >
+          {count}{suffix}
+        </motion.div>
+
+        {/* Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: delay + 0.6 }}
+          className="text-body-lg font-semibold text-foreground mb-2 tracking-wide uppercase"
+        >
+          {label}
+        </motion.div>
+
+        {/* Description */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.6, delay: delay + 0.8 }}
+          className="text-body-sm text-muted-foreground leading-relaxed"
+        >
+          {description}
+        </motion.div>
+
+        {/* Hover Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg pointer-events-none" />
       </div>
     </motion.div>
   );
 };
 
 const StatsSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
   const stats = [
-    { number: 20, label: 'Projects Delivered', suffix: '+' },
-    { number: 5, label: 'Years Experience', suffix: '+' },
-    { number: 100, label: 'Client Satisfaction', suffix: '%' },
-    { number: 15, label: 'Technologies Mastered', suffix: '+' },
+    { 
+      number: 50, 
+      label: 'Projects Delivered', 
+      suffix: '+',
+      icon: <Trophy className="w-8 h-8" />,
+      description: 'Successfully completed projects across various industries and scales'
+    },
+    { 
+      number: 8, 
+      label: 'Years Experience', 
+      suffix: '+',
+      icon: <Clock className="w-8 h-8" />,
+      description: 'Deep expertise in cutting-edge technologies and best practices'
+    },
+    { 
+      number: 100, 
+      label: 'Client Satisfaction', 
+      suffix: '%',
+      icon: <Users className="w-8 h-8" />,
+      description: 'Consistently exceeding expectations and building lasting partnerships'
+    },
+    { 
+      number: 25, 
+      label: 'Technologies Mastered', 
+      suffix: '+',
+      icon: <Target className="w-8 h-8" />,
+      description: 'Comprehensive toolkit spanning frontend, backend, and cloud solutions'
+    },
   ];
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={containerRef} className="py-32 bg-black relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-secondary/50 to-black" />
+      
+      {/* Floating Geometric Elements */}
+      <motion.div
+        style={{ y }}
+        className="absolute top-20 left-10 w-32 h-32 border border-primary/20 rotate-45 opacity-30"
+      />
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [-30, 30]) }}
+        className="absolute bottom-20 right-20 w-24 h-24 bg-primary/10 rounded-full opacity-40"
+      />
+
+      <motion.div 
+        style={{ opacity }}
+        className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12"
+      >
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Track Record
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 mb-6"
+          >
+            <div className="w-12 h-0.5 bg-primary" />
+            <span className="text-caption text-primary tracking-wider">PROVEN EXCELLENCE</span>
+            <div className="w-12 h-0.5 bg-primary" />
+          </motion.div>
+          
+          <h2 className="text-display-lg font-bold text-foreground mb-6 tracking-tight">
+            Numbers That{' '}
+            <span className="text-gradient">Define Excellence</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Numbers that speak to our commitment to excellence and innovation
+          
+          <p className="text-body-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Our track record speaks volumes about our commitment to delivering exceptional 
+            digital solutions that drive real business results.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <StatItem
               key={index}
               number={stat.number}
               label={stat.label}
               suffix={stat.suffix}
-              delay={index * 0.2}
+              icon={stat.icon}
+              description={stat.description}
+              delay={index * 0.15}
             />
           ))}
         </div>
-      </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mt-20"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="glass-heavy px-8 py-4 text-body-md font-semibold text-foreground tracking-wider uppercase hover:bg-primary hover:text-black transition-all duration-500 border-gradient glow-hover"
+            style={{ clipPath: 'polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)' }}
+          >
+            Start Your Project
+          </motion.button>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
